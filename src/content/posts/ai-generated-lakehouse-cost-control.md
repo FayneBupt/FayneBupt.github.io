@@ -1,6 +1,7 @@
 ---
 title: 【AI生成】Lakehouse 成本优化手册（实践版）
 date: 2026-04-04
+draft: true
 summary: AI 生成的 Lakehouse 成本治理文档，聚焦存储、计算、冷热分层与查询优化。
 aiGenerated: true
 tags:

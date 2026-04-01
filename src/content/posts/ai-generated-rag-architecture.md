@@ -1,6 +1,7 @@
 ---
 title: 【AI生成】RAG 检索增强架构设计说明
 date: 2026-04-03
+draft: true
 summary: AI 生成的 RAG 技术文档，包含向量库选型、索引策略、召回与重排链路。
 aiGenerated: true
 tags:

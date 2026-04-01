@@ -2,11 +2,13 @@
 
 基于 Astro 的个人博客项目，部署到 GitHub Pages。
 
+<https://faynebupt.github.io/>
+
 ## 本地开发
 
 ```bash
 npm install
-npm run dev
+source ~/.nvm/nvm.sh && nvm use 22 >/dev/null && npm run dev -- --host 0.0.0.0 --port 4321
 ```
 
 ## 构建与预览
@@ -38,3 +40,4 @@ tags:
 draft: false
 ---
 ```
+
