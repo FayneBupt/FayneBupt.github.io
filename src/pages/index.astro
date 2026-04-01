@@ -7,15 +7,31 @@ const posts = sortPosts(await getCollection('posts', ({ data }) => !data.draft))
 ---
 
 <Layout title="Fayne Blog" description="Fayne 的个人博客，记录数据库、数据湖与 AI 技术。">
-	<section class="card">
-		<h1>你好，我是 Fayne 👋</h1>
-		<p>
-			这里是我的技术档案，主要记录数据库、数据湖和 AI 应用实践。
-			如果你第一次来，建议先看 <a href="/blog">博客列表</a>。
-		</p>
+	<section class="hero card">
+		<p class="hero-badge">TECH · NOTES · IDEAS</p>
+		<h1>关注技术，记录想法</h1>
+		<p>这里是我的个人博客，主要分享技术学习、项目实践和日常思考，欢迎随时来逛逛并交流。</p>
+		<div class="hero-actions">
+			<a class="btn-primary" href="/catalog">进入总目录</a>
+			<a class="btn-ghost" href="/blog">浏览最新文章</a>
+		</div>
+		<div class="hero-stats">
+			<div class="hero-stat">
+				<span>{posts.length}</span>
+				<p>已发布文章</p>
+			</div>
+			<div class="hero-stat">
+				<span>AI</span>
+				<p>持续生成与校对</p>
+			</div>
+			<div class="hero-stat">
+				<span>SQL</span>
+				<p>建模与调优实践</p>
+			</div>
+		</div>
 	</section>
 
-	<section style="margin-top: 1rem;">
+	<section class="home-section">
 		<h2>最新文章</h2>
 		<div class="post-list">
 			{
