@@ -1,11 +1,37 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { formatDate, postPath, sortPosts } from '../utils/posts';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const posts = sortPosts(await getCollection('posts', ({ data }) => !data.draft)).slice(0, 5);
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Fayne Blog" description="Fayne 的个人博客，记录数据库、数据湖与 AI 技术。">
+	<section class="card">
+		<h1>你好，我是 Fayne 👋</h1>
+		<p>
+			这里是我的技术档案，主要记录数据库、数据湖和 AI 应用实践。
+			如果你第一次来，建议先看 <a href="/blog">博客列表</a>。
+		</p>
+	</section>
+
+	<section style="margin-top: 1rem;">
+		<h2>最新文章</h2>
+		<div class="post-list">
+			{
+				posts.map((post) => (
+					<article class="card post-item">
+						<h3>
+							<a href={postPath(post)}>{post.data.title}</a>
+						</h3>
+						<p class="meta">
+							{formatDate(post.data.date)}
+							{post.data.aiGenerated ? ' · AI生成文档' : ''}
+						</p>
+						<p>{post.data.summary}</p>
+					</article>
+				))
+			}
+		</div>
+	</section>
 </Layout>

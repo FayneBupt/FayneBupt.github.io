@@ -1,0 +1,77 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate, postPath, readingTime, sortPosts } from '../../utils/posts';
+
+type Props = {
+	post: CollectionEntry<'posts'>;
+	prev?: CollectionEntry<'posts'>;
+	next?: CollectionEntry<'posts'>;
+};
+
+export async function getStaticPaths() {
+	const posts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
+	return posts.map((post, index) => ({
+		params: { slug: post.id.replace(/\.md$/, '') },
+		props: {
+			post,
+			prev: posts[index + 1],
+			next: posts[index - 1]
+		}
+	}));
+}
+
+const { post, prev, next } = Astro.props;
+const { Content, headings } = await render(post);
+const tocItems = headings.filter((item) => item.depth <= 3);
+---
+
+<Layout title={`${post.data.title} | Fayne Blog`} description={post.data.summary}>
+	<div class="article-layout">
+		<aside class="card toc-card">
+			<h3>目录</h3>
+			<nav class="toc-nav">
+				<a class="toc-link depth-1" href="#article-top">
+					文章开头
+				</a>
+				{tocItems.map((item) => (
+					<a class={`toc-link depth-${item.depth}`} href={`#${item.slug}`}>
+						{item.text}
+					</a>
+				))}
+				{tocItems.length === 0 && <p class="meta">这篇文章暂无小节标题</p>}
+			</nav>
+		</aside>
+
+		<article class="card prose">
+			<h1 id="article-top">{post.data.title}</h1>
+			<p class="meta">
+				{formatDate(post.data.date)} · {readingTime(post.body)}
+				{post.data.updated ? ` · 更新于 ${formatDate(post.data.updated)}` : ''}
+				{post.data.aiGenerated ? ' · AI生成文档' : ''}
+			</p>
+			<div class="tags">
+				{post.data.tags.map((tag) => (
+					<a class="tag" href={`/tags/${encodeURIComponent(tag)}`}>
+						#{tag}
+					</a>
+				))}
+			</div>
+			<Content />
+		</article>
+	</div>
+
+	<div style="margin-top: 1rem; display: grid; gap: 0.75rem;">
+		{prev && (
+			<a class="card" href={postPath(prev)}>
+				上一篇：{prev.data.title}
+			</a>
+		)}
+		{next && (
+			<a class="card" href={postPath(next)}>
+				下一篇：{next.data.title}
+			</a>
+		)}
+	</div>
+</Layout>

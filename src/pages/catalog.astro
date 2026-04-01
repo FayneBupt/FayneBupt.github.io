@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { formatDate, groupPostsByYear, postPath, sortPosts } from '../utils/posts';
+
+const posts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
+const years = groupPostsByYear(posts);
+---
+
+<Layout title="总目录 | Fayne Blog" description="所有博客文章总目录，支持按年份快速跳转。">
+	<h1>所有博客总目录</h1>
+	<p class="meta">共 {posts.length} 篇文章，可按年份快速定位。</p>
+
+	<div class="catalog-layout">
+		<aside class="card catalog-nav">
+			<h3>年份导航</h3>
+			<nav class="toc-nav">
+				{years.map((group) => (
+					<a class="toc-link depth-1" href={`#year-${group.year}`}>
+						{group.year} 年 ({group.posts.length})
+					</a>
+				))}
+			</nav>
+		</aside>
+
+		<section class="catalog-content">
+			{years.map((group) => (
+				<div class="card catalog-year-block" id={`year-${group.year}`}>
+					<h2>{group.year} 年</h2>
+					<div class="catalog-list">
+						{group.posts.map((post) => (
+							<a class="catalog-item" href={postPath(post)}>
+								<span class="catalog-title">{post.data.title}</span>
+								<span class="meta">
+									{formatDate(post.data.date)}
+									{post.data.aiGenerated ? ' · AI生成文档' : ''}
+								</span>
+							</a>
+						))}
+					</div>
+				</div>
+			))}
+		</section>
+	</div>
+</Layout>

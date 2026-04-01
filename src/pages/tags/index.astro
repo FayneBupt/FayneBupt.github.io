@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { groupTags } from '../../utils/posts';
+
+const posts = await getCollection('posts', ({ data }) => !data.draft);
+const tags = groupTags(posts);
+---
+
+<Layout title="标签 | Fayne Blog" description="按标签查看文章。">
+	<h1>标签</h1>
+	<div class="tags">
+		{
+			tags.map(({ tag, count }) => (
+				<a class="tag" href={`/tags/${encodeURIComponent(tag)}`}>
+					{tag} ({count})
+				</a>
+			))
+		}
+	</div>
+</Layout>

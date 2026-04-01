@@ -1,46 +1,40 @@
-# Astro Starter Kit: Basics
+# Fayne Blog
 
-```sh
-npm create astro@latest -- --template basics
+基于 Astro 的个人博客项目，部署到 GitHub Pages。
+
+## 本地开发
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 构建与预览
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```bash
+npm run build
+npm run preview
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## 目录说明
 
-## 🧞 Commands
+- `src/content/posts`：Markdown 博客文章
+- `src/pages`：页面路由（首页、博客、标签、关于、RSS）
+- `src/layouts/Layout.astro`：全局布局与导航
+- `.github/workflows/deploy.yml`：自动部署到 GitHub Pages
 
-All commands are run from the root of the project, from a terminal:
+## 写作格式
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+每篇文章使用 Frontmatter：
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```yaml
+---
+title: 文章标题
+date: 2026-04-01
+summary: 一句话摘要
+tags:
+  - 标签1
+  - 标签2
+draft: false
+---
+```

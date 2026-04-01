@@ -1,23 +1,65 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = 'Fayne 的个人博客，记录技术与生活。' } = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<meta name="description" content={description} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Fayne Blog" />
+		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+		<header class="site-header">
+			<nav class="container nav">
+				<a class="brand" href="/">Fayne Blog</a>
+				<div class="nav-links">
+					<a href="/blog">博客</a>
+					<a href="/catalog">总目录</a>
+					<a href="/tags">标签</a>
+					<a href="/about">关于</a>
+					<button id="theme-toggle" type="button" aria-label="切换主题">🌙</button>
+				</div>
+			</nav>
+		</header>
+		<main class="container content">
+			<slot />
+		</main>
+		<footer class="container site-footer">
+			<p>© {new Date().getFullYear()} Fayne · Built with Astro</p>
+		</footer>
+		<script is:inline>
+			const root = document.documentElement;
+			const key = 'theme-preference';
+			const saved = localStorage.getItem(key);
+			if (saved) root.dataset.theme = saved;
+			const btn = document.getElementById('theme-toggle');
+			const syncIcon = () => {
+				const dark = root.dataset.theme === 'dark';
+				if (btn) btn.textContent = dark ? '☀️' : '🌙';
+			};
+			syncIcon();
+			btn?.addEventListener('click', () => {
+				const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+				root.dataset.theme = next;
+				localStorage.setItem(key, next);
+				syncIcon();
+			});
+		</script>
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

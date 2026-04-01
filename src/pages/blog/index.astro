@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate, groupPostsByYear, postPath, sortPosts } from '../../utils/posts';
+
+const posts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
+const years = groupPostsByYear(posts);
+---
+
+<Layout title="博客 | Fayne Blog" description="按时间查看 Fayne 的所有文章。">
+	<h1>博客</h1>
+	<p class="meta">可点击左侧目录快速跳转，或进入 <a href="/catalog">总目录页</a> 查看全量索引。</p>
+	<div class="blog-layout">
+		<aside class="card catalog-nav">
+			<h3>博客目录</h3>
+			<nav class="toc-nav">
+				{years.map((group) => (
+					<a class="toc-link depth-1" href={`#year-${group.year}`}>
+						{group.year} 年
+					</a>
+				))}
+			</nav>
+		</aside>
+		<div class="post-list">
+			{
+				years.map((group) => (
+					<section id={`year-${group.year}`}>
+						<h2>{group.year} 年</h2>
+						<div class="post-list">
+							{group.posts.map((post) => (
+								<article class="card post-item">
+									<h3>
+										<a href={postPath(post)}>{post.data.title}</a>
+									</h3>
+									<p class="meta">
+										{formatDate(post.data.date)}
+										{post.data.aiGenerated ? ' · AI生成文档' : ''}
+									</p>
+									<p>{post.data.summary}</p>
+									<div class="tags">
+										{post.data.tags.map((tag) => (
+											<a class="tag" href={`/tags/${encodeURIComponent(tag)}`}>
+												#{tag}
+											</a>
+										))}
+									</div>
+								</article>
+							))}
+						</div>
+					</section>
+				))
+			}
+		</div>
+	</div>
+</Layout>
