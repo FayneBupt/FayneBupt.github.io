@@ -3,6 +3,7 @@ title: 【AI生成】企业级数据湖分层蓝图（v1）
 date: 2026-04-02
 summary: AI 生成的数据湖设计文档，覆盖分层模型、表设计规范、数据质量与治理策略。
 aiGenerated: true
+draft: true
 tags:
   - AI
   - 数据湖

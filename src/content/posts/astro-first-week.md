@@ -1,6 +1,7 @@
 ---
 title: 数据湖分层模型第一周落地记录
 date: 2026-03-30
+draft: true
 summary: 记录数据湖从 ODS 到 ADS 的分层设计与首周上线结果。
 tags:
   - 数据湖
