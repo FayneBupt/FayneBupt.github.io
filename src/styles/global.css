@@ -347,15 +347,20 @@ article.prose img {
 	display: grid;
 	gap: 0.2rem;
 	max-height: calc(100vh - 10rem);
-	overflow: auto;
+	overflow-y: auto;
+	overflow-x: auto;
 	padding-right: 0.2rem;
 }
 
 .toc-link {
 	color: var(--muted);
-	font-size: 0.92rem;
-	line-height: 1.4;
+	font-size: 0.82rem;
+	line-height: 1.32;
+	font-weight: 700;
 	display: block;
+	width: max-content;
+	min-width: 100%;
+	white-space: nowrap;
 	padding: 0.22rem 0.4rem;
 	border-radius: 8px;
 	text-decoration: none;
@@ -378,7 +383,7 @@ article.prose img {
 .toc-link.active {
 	color: var(--brand);
 	background: color-mix(in srgb, var(--brand) 14%, transparent);
-	font-weight: 600;
+	font-weight: 700;
 }
 
 article.prose .mermaid {
